@@ -13,13 +13,20 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.get("/", (req, res) => {
-  res.send("Backend is running on Vercel ✅");
+// Health check route
+app.get('/', (req, res) => {
+  res.send('API is running...');
 });
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/reports', require('./routes/reports'));
 app.use('/api/users', require('./routes/users'));
 
-// ❌ app.listen REMOVE
+// Only listen if not running in Vercel (Vercel handles this)
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
 module.exports = app;
