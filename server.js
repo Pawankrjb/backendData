@@ -7,6 +7,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ✅ Connect DB (safe way)
+if (!process.env.MONGODB_URI) {
+  console.error("❌ MONGODB_URI is missing in environment variables!");
+}
 connectDB();
 
 // Middleware
